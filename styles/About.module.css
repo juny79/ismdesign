@@ -1,0 +1,974 @@
+/* 컨테이너 */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #F5EFE7 0%, #E8DCC8 50%, #F5EFE7 100%);
+  position: relative;
+}
+
+/* 네비게이션 바 */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 92%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 28px;
+  margin: 0 auto;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 auto;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  padding-bottom: 8px;
+}
+
+.logo:hover {
+  transform: translateY(-2px);
+}
+
+.logoIcon {
+  width: auto;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+}
+
+/* 메뉴 */
+.menu {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li a {
+  color: #333;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+}
+
+.menu li a:hover,
+.menu li a.active {
+  color: #D4825E;
+}
+
+/* 페이지 헤더 */
+.pageHeader {
+  text-align: center;
+  padding: 100px 20px 40px;
+  background: linear-gradient(135deg, #E67E50 0%, #D4825E 100%);
+  color: #ffffff;
+  margin-top: -100px;
+}
+
+.pageHeader h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 2px;
+}
+
+.pageHeader p {
+  font-size: 20px;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* 하위 탭 */
+.subTabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 20px;
+  background: #ffffff;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.subTab {
+  color: #666;
+  background: transparent;
+  border: none;
+  font-size: 17px;
+  font-weight: 500;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  letter-spacing: 0.3px;
+}
+
+.subTab:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+.subTab.activeSubTab {
+  color: #ffffff;
+  background: #D4825E;
+  font-weight: 600;
+}
+
+/* 콘텐츠 */
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 20px;
+}
+
+/* Hero Section */
+.heroSection {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroBackground {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cadLines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+}
+
+.cadSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.line1, .line2, .line3, .line4, .circle1 {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: drawLine 3s ease-in-out forwards;
+}
+
+.line1 { animation-delay: 0s; }
+.line2 { animation-delay: 0.3s; }
+.line3 { animation-delay: 0.6s; }
+.line4 { animation-delay: 0.9s; }
+.circle1 { animation-delay: 1.2s; }
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  max-width: 800px;
+  animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroTitle {
+  font-size: 42px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+.heroSubtitle {
+  font-size: 28px;
+  font-weight: 400;
+  color: #555;
+  margin: 20px 0;
+  letter-spacing: 2px;
+}
+
+.heroDescription {
+  font-size: 18px;
+  color: #666;
+  margin: 24px 0 0 0;
+  line-height: 1.8;
+}
+
+/* Design Stage */
+.designStage {
+  padding: 60px 40px 40px;
+  background: rgba(255, 255, 255, 0.9);
+  margin: 40px 0 -20px;
+  border-radius: 20px;
+}
+
+.stageHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.stageHeader h3 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+
+.stageHeader p {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 프로세스 플로우 라인 */
+.processFlow {
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+}
+
+.flowLine {
+  position: relative;
+  width: 100%;
+  height: 100px;
+}
+
+.flowLineSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.progressLine {
+  stroke-dasharray: 1100;
+  stroke-dashoffset: 1100;
+  animation: drawProgress 2s ease-in-out forwards;
+}
+
+@keyframes drawProgress {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.flowDot {
+  opacity: 0;
+  animation: popDot 0.5s ease-out forwards;
+}
+
+@keyframes popDot {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.layerContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.layer {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInLayer 0.6s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.layer[data-layer="1"] { animation-delay: 0.2s; }
+.layer[data-layer="2"] { animation-delay: 0.4s; }
+.layer[data-layer="3"] { animation-delay: 0.6s; }
+.layer[data-layer="4"] { animation-delay: 0.8s; }
+.layer[data-layer="5"] { animation-delay: 1s; }
+.layer[data-layer="6"] { animation-delay: 1.2s; }
+
+@keyframes fadeInLayer {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.layer:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(212, 130, 94, 0.25);
+}
+
+.layerNumber {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 48px;
+  font-weight: 700;
+  color: rgba(212, 130, 94, 0.15);
+  line-height: 1;
+}
+
+.layerLabel {
+  font-size: 20px;
+  font-weight: 600;
+  color: #D4825E;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.layerDescription {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  line-height: 1.6;
+  margin: 16px 0 0 0;
+  padding: 0 10px;
+}
+
+.layerVisual {
+  width: 100%;
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(245, 239, 231, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.layerSvg {
+  width: 100%;
+  height: auto;
+}
+
+.wallStructure, .structure {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawElement 2s ease-in-out forwards;
+}
+
+@keyframes drawElement {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.layerImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Philosophy Section */
+.philosophySection {
+  min-height: 80vh;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.philosophyContent {
+  max-width: 1200px;
+  width: 100%;
+}
+
+.philosophyContent h3 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin: 0 0 60px 0;
+}
+
+.philosophyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.philosophyItem {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.philosophyItem:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(212, 130, 94, 0.2);
+}
+
+.philosophyIcon {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.philosophyItem h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.philosophyItem p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 48px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 인터랙티브 섹션 */
+.interactiveSection {
+  width: 100%;
+  min-height: 300vh;
+}
+
+.section h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 24px 0;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #D4825E;
+}
+
+.section p {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #555;
+  margin: 16px 0;
+}
+
+/* 회사소개 헤더 */
+.introHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.introHeader h2 {
+  font-size: 28px;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: 1.6;
+}
+
+.introSubtitle {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  margin-top: 12px !important;
+}
+
+/* 브랜드 아이덴티티 */
+.brandIdentity {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.brandName {
+  font-size: 24px;
+  font-weight: 400;
+  color: #555;
+  letter-spacing: 1px;
+}
+
+.brandLetter {
+  color: #D4825E;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+/* 이미지와 텍스트 레이아웃 */
+.introWithImages {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.leftImage,
+.rightImage {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.leftImage:hover,
+.rightImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.aboutImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.introMainText {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.introMainText p {
+  font-size: 16px;
+  line-height: 2;
+  color: #555;
+  margin: 8px 0;
+  font-weight: 300;
+}
+
+/* 특징 카드 */
+.features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.featureItem {
+  background: rgba(212, 130, 94, 0.1);
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(212, 130, 94, 0.2);
+}
+
+.featureIcon {
+  width: 50px;
+  height: 50px;
+  background: #D4825E;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 16px;
+}
+
+.featureItem h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.featureItem p {
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 비전 섹션 배경 */
+.sectionWithBg {
+  background-image: url('/bright_tone.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+.visionOverlay {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 48px;
+  width: 100%;
+}
+
+.visionOverlay h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 24px 0;
+  padding-bottom: 16px;
+  border-bottom: 3px solid #D4825E;
+}
+
+.visionOverlay p {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #555;
+  margin: 16px 0 32px 0;
+}
+
+/* 사업실적 히스토리 소개 */
+.historyIntro {
+  text-align: center;
+  font-size: 16px;
+  color: #666;
+  margin: 24px 0 48px 0;
+  line-height: 1.8;
+}
+
+/* 타임라인 */
+.timeline {
+  position: relative;
+  padding: 40px 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #E67E50 0%, #D4825E 100%);
+  transform: translateX(-50%);
+}
+
+.timelineItem {
+  display: flex;
+  margin-bottom: 60px;
+  position: relative;
+  align-items: flex-start;
+}
+
+.timelineItem:nth-child(odd) {
+  flex-direction: row;
+}
+
+.timelineItem:nth-child(even) {
+  flex-direction: row-reverse;
+}
+
+.timelineYear {
+  flex: 0 0 45%;
+  font-size: 36px;
+  font-weight: 700;
+  color: #D4825E;
+  text-align: right;
+  padding-right: 40px;
+  position: relative;
+}
+
+.timelineItem:nth-child(even) .timelineYear {
+  text-align: left;
+  padding-right: 0;
+  padding-left: 40px;
+}
+
+.timelineYear::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+  background: #D4825E;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px #D4825E;
+}
+
+.timelineItem:nth-child(even) .timelineYear::after {
+  right: auto;
+  left: -6px;
+}
+
+.timelineContent {
+  flex: 0 0 45%;
+  padding-left: 40px;
+  text-align: left;
+}
+
+.timelineItem:nth-child(even) .timelineContent {
+  padding-left: 0;
+  padding-right: 40px;
+  text-align: right;
+}
+
+.timelineContent ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timelineContent ul li {
+  font-size: 16px;
+  line-height: 2;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.timelineItem:nth-child(odd) .timelineContent ul li {
+  padding-left: 20px;
+  position: relative;
+}
+
+.timelineItem:nth-child(odd) .timelineContent ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #D4825E;
+  font-size: 18px;
+}
+
+.timelineItem:nth-child(even) .timelineContent ul li {
+  padding-right: 20px;
+  position: relative;
+}
+
+.timelineItem:nth-child(even) .timelineContent ul li::after {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: #D4825E;
+  font-size: 18px;
+}
+
+/* 조직도 */
+.orgChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding: 40px 0;
+}
+
+.orgLevel {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.orgBox {
+  background: linear-gradient(135deg, #E67E50 0%, #D4825E 100%);
+  color: #ffffff;
+  padding: 20px 40px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(212, 130, 94, 0.3);
+  min-width: 150px;
+  text-align: center;
+}
+
+/* 비전 리스트 */
+.visionList {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0 0;
+}
+
+.visionList li {
+  font-size: 18px;
+  line-height: 2.2;
+  color: #555;
+  padding-left: 32px;
+  position: relative;
+}
+
+.visionList li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #D4825E;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .pageHeader h1 {
+    font-size: 36px;
+  }
+
+  .subTabs {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .subTab {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+
+  .section {
+    padding: 32px 24px;
+  }
+
+  .section h2 {
+    font-size: 26px;
+  }
+
+  .orgLevel {
+    flex-direction: column;
+  }
+
+  .introWithImages {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .introMainText p {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+
+  .brandLetter {
+    font-size: 22px;
+  }
+
+  .introHeader h2 {
+    font-size: 22px;
+  }
+
+  .introSubtitle {
+    font-size: 18px;
+  }
+
+  .heroTitle {
+    font-size: 28px;
+  }
+
+  .heroSubtitle {
+    font-size: 20px;
+  }
+
+  .heroDescription {
+    font-size: 16px;
+  }
+
+  .layerContainer {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .philosophyGrid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .philosophyContent h3,
+  .stageHeader h3 {
+    font-size: 28px;
+  }
+
+  .stageHeader p {
+    font-size: 16px;
+  }
+
+  .designStage,
+  .philosophySection {
+    padding: 60px 20px;
+  }
+
+  .processFlow {
+    display: none;
+  }
+
+  .layerNumber {
+    font-size: 36px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .layerLabel {
+    font-size: 18px;
+  }
+
+  .layerDescription {
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layerContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
