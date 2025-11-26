@@ -33,7 +33,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# image file
-*.png
-*.jpg
-*.gif
+# image folder
+/test/
