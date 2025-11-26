@@ -7,42 +7,58 @@ import styles from "../styles/MainPortfolio.module.css";
 const categories = [
   {
     id: "gwangju",
-    name: "광주 봉산지구 첨단 제일풍경채",
+    name: "광주 봉산지구 제일풍경채",
     images: [
-      { image: "/portfolio/p1_new.jpg" },
-      { image: "/portfolio/p2_new.jpg" },
+      { image: "/portfolio/24_gjbs_113/g1.jpg" },
+      { image: "/portfolio/24_gjbs_113/g2.jpg" },
+      { image: "/portfolio/24_gjbs_113/g3.jpg" },
+      { image: "/portfolio/24_gjbs_113/g4.jpg" },
+      { image: "/portfolio/24_gjbs_113/g5.jpg" },
+      { image: "/portfolio/24_gjbs_113/g6.jpg" },
+      { image: "/portfolio/24_gjbs_113/g7.jpg" },
+      { image: "/portfolio/24_gjbs_113/g8.jpg" },
+      { image: "/portfolio/24_gjbs_113/g9.jpg" },
+      { image: "/portfolio/24_gjbs_113/g10.jpg" },
     ],
   },
   {
     id: "pyeongtaek",
-    name: "평택 가재지구 2블럭 제일풍경채",
+    name: "평택 가재지구 쌍용플래티넘",
     images: [
-      { image: "/portfolio/p3_new.jpg" },
-      { image: "/portfolio/p4_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p1_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p2_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p3_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p4_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p5_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p6_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p7_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p8_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p9_new.jpg" },
+      { image: "/portfolio/23_ptgj_113/p10_new.jpg" },
     ],
   },
   {
-    id: "yangyang",
-    name: "양양 구교리 금호어울림",
+    id: "chungju",
+    name: "충주 호암지구 제일풍경채",
     images: [
-      { image: "/portfolio/p5_new.jpg" },
-      { image: "/portfolio/p6_new.jpg" },
-    ],
-  },
-  {
-    id: "gyeongsan",
-    name: "경산 하양지구 제일풍경채",
-    images: [
-      { image: "/portfolio/p7_new.jpg" },
-      { image: "/portfolio/p8_new.jpg" },
+      { image: "/portfolio/24_gjbs_113/g1.jpg" },
+      { image: "/portfolio/24_gjbs_113/g2.jpg" },
     ],
   },
   {
     id: "godeok",
-    name: "고덕 강일지구 1블럭 제일풍경채",
+    name: "고덕 강일지구 제일풍경채",
     images: [
-      { image: "/portfolio/p9_new.jpg" },
-      { image: "/portfolio/p10_new.jpg" },
+      { image: "/portfolio/24_gjbs_113/g1.jpg" },
+      { image: "/portfolio/24_gjbs_113/g2.jpg" },
+    ],
+  },
+  {
+    id: "wirye",
+    name: "위례 일상 제일풍경채",
+    images: [
+      { image: "/portfolio/24_gjbs_113/g1.jpg" },
+      { image: "/portfolio/24_gjbs_113/g2.jpg" },
     ],
   },
 ];
@@ -50,7 +66,17 @@ const categories = [
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const currentImages = categories[activeCategory].images;
+
+  // 마우스 추적
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -68,6 +94,15 @@ export default function Home() {
 
   return (
     <div className={styles.sliderContainer}>
+      {/* 마우스 커서 이펙트 */}
+      <div 
+        className={styles.cursorGlow}
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+        }}
+      />
+      
       {/* 네비게이션 바 (로고 + 카테고리) */}
       <nav className={styles.navbar}>
         <div className={styles.navLeft}>

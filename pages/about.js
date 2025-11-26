@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/About.module.css";
@@ -12,9 +12,27 @@ const aboutTabs = [
 
 export default function About() {
   const [activeTab, setActiveTab] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // 마우스 추적
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
     <div className={styles.container}>
+      {/* 마우스 커서 이펙트 */}
+      <div 
+        className={styles.cursorGlow}
+        style={{
+          left: `${mousePosition.x}px`,
+          top: `${mousePosition.y}px`,
+        }}
+      />
       {/* 상단 네비게이션 바 */}
       <nav className={styles.navbar}>
         <div className={styles.navLeft}>
@@ -305,7 +323,7 @@ export default function About() {
                 <div className={styles.orgBox}>대표이사</div>
               </div>
               <div className={styles.orgLevel}>
-                <div className={styles.orgBox}>디자인팀</div>
+                <div className={styles.orgBox}>설계팀</div>
                 <div className={styles.orgBox}>영업팀</div>
                 <div className={styles.orgBox}>관리팀</div>
               </div>
