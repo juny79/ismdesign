@@ -2,7 +2,7 @@
 .container {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #F5EFE7 0%, #E8DCC8 50%, #F5EFE7 100%);
+  background: linear-gradient(135deg, #3a3d45 0%, #4a4e58 50%, #3a3d45 100%);
   position: relative;
 }
 
@@ -18,10 +18,13 @@
   padding: 32px 28px;
   margin: 0 auto;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.24) 45%,
+    rgba(0, 0, 0, 0) 100%
+  );
   border-radius: 0 0 24px 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .navLeft {
@@ -67,7 +70,7 @@
 }
 
 .menu li a {
-  color: #333;
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
@@ -78,14 +81,14 @@
 
 .menu li a:hover,
 .menu li a.active {
-  color: #D4825E;
+  color: #ffffff;
 }
 
 /* 페이지 헤더 */
 .pageHeader {
   text-align: center;
   padding: 100px 20px 40px;
-  background: linear-gradient(135deg, #E67E50 0%, #D4825E 100%);
+  background: transparent;
   color: #ffffff;
   margin-top: -100px;
 }
@@ -110,32 +113,56 @@
   justify-content: center;
   gap: 8px;
   padding: 32px 20px;
-  background: #ffffff;
-  border-bottom: 2px solid #e0e0e0;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .subTab {
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   background: transparent;
   border: none;
   font-size: 17px;
   font-weight: 500;
   padding: 12px 32px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 8px;
   letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+}
+
+.subTab::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(212, 130, 94, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.subTab:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 .subTab:hover {
-  color: #333;
-  background: #f5f5f5;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .subTab.activeSubTab {
   color: #ffffff;
   background: #D4825E;
   font-weight: 600;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(212, 130, 94, 0.4);
 }
 
 /* 콘텐츠 */
@@ -199,7 +226,7 @@
   z-index: 2;
   text-align: center;
   padding: 40px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   max-width: 800px;
@@ -220,7 +247,7 @@
 .heroTitle {
   font-size: 42px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 24px 0;
   line-height: 1.4;
 }
@@ -228,14 +255,14 @@
 .heroSubtitle {
   font-size: 28px;
   font-weight: 400;
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   margin: 20px 0;
   letter-spacing: 2px;
 }
 
 .heroDescription {
   font-size: 18px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   margin: 24px 0 0 0;
   line-height: 1.8;
 }
@@ -243,7 +270,7 @@
 /* Design Stage */
 .designStage {
   padding: 60px 40px 40px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.3);
   margin: 40px 0 -20px;
   border-radius: 20px;
 }
@@ -256,13 +283,13 @@
 .stageHeader h3 {
   font-size: 36px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 16px 0;
 }
 
 .stageHeader p {
   font-size: 18px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
   line-height: 1.6;
 }
@@ -325,16 +352,17 @@
 }
 
 .layer {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.4);
   border-radius: 16px;
   padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: all 0.4s ease;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInLayer 0.6s ease-out forwards;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .layer[data-layer="1"] { animation-delay: 0.2s; }
@@ -369,14 +397,14 @@
 .layerLabel {
   font-size: 20px;
   font-weight: 600;
-  color: #D4825E;
+  color: #ff8c5a;
   margin-bottom: 20px;
   text-align: center;
 }
 
 .layerDescription {
   font-size: 14px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   text-align: center;
   line-height: 1.6;
   margin: 16px 0 0 0;
@@ -434,7 +462,7 @@
 .philosophyContent h3 {
   font-size: 36px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
   text-align: center;
   margin: 0 0 60px 0;
 }
@@ -446,17 +474,18 @@
 }
 
 .philosophyItem {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.4);
   padding: 40px;
   border-radius: 16px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .philosophyItem:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 30px rgba(212, 130, 94, 0.2);
+  box-shadow: 0 8px 30px rgba(212, 130, 94, 0.4);
 }
 
 .philosophyIcon {
@@ -467,24 +496,25 @@
 .philosophyItem h4 {
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 16px 0;
   line-height: 1.5;
 }
 
 .philosophyItem p {
   font-size: 15px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.7;
   margin: 0;
 }
 
 .section {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   padding: 48px;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* 인터랙티브 섹션 */
@@ -496,16 +526,16 @@
 .section h2 {
   font-size: 32px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 24px 0;
   padding-bottom: 16px;
-  border-bottom: 3px solid #D4825E;
+  border-bottom: 3px solid #ff8c5a;
 }
 
 .section p {
   font-size: 18px;
   line-height: 1.8;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
   margin: 16px 0;
 }
 
@@ -658,7 +688,7 @@
 }
 
 .visionOverlay {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   padding: 48px;
   width: 100%;
@@ -667,16 +697,16 @@
 .visionOverlay h2 {
   font-size: 32px;
   font-weight: 700;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 24px 0;
   padding-bottom: 16px;
-  border-bottom: 3px solid #D4825E;
+  border-bottom: 3px solid #ff8c5a;
 }
 
 .visionOverlay p {
   font-size: 18px;
   line-height: 1.8;
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   margin: 16px 0 32px 0;
 }
 
@@ -684,7 +714,7 @@
 .historyIntro {
   text-align: center;
   font-size: 16px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.8);
   margin: 24px 0 48px 0;
   line-height: 1.8;
 }
@@ -776,7 +806,7 @@
 .timelineContent ul li {
   font-size: 16px;
   line-height: 2;
-  color: #555;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 8px;
 }
 
@@ -843,7 +873,7 @@
 .visionList li {
   font-size: 18px;
   line-height: 2.2;
-  color: #555;
+  color: rgba(255, 255, 255, 0.9);
   padding-left: 32px;
   position: relative;
 }
@@ -971,4 +1001,18 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 32px;
   }
+}
+
+/* 마우스 커서 글로우 효과 */
+.cursorGlow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 130, 94, 0.15) 0%, rgba(212, 130, 94, 0.08) 30%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
 }
