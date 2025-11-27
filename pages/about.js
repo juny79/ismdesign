@@ -1,7 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import styles from "../styles/About.module.css";
+import projectHistoryData from "../data/projectHistory.json";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const aboutTabs = [
   { id: "intro", name: "회사소개" },
@@ -9,6 +16,109 @@ const aboutTabs = [
   { id: "organization", name: "조직도" },
   { id: "vision", name: "비전" },
 ];
+
+// Performance Section Component with Accordion
+function PerformanceSection() {
+  const [openYears, setOpenYears] = useState({});
+  const yearRefs = useRef({});
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && sectionRef.current) {
+      const yearBlocks = sectionRef.current.querySelectorAll(`.${styles.yearBlock}`);
+      
+      gsap.fromTo(
+        yearBlocks,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    }
+  }, []);
+
+  const toggleYear = (year) => {
+    setOpenYears(prev => ({
+      ...prev,
+      [year]: !prev[year]
+    }));
+  };
+
+  const getPortfolioLink = (project) => {
+    if (project.hasPortfolio && project.portfolioFolder) {
+      return `/portfolio/${project.portfolioFolder}`;
+    }
+    return null;
+  };
+
+  const years = Object.keys(projectHistoryData).sort((a, b) => b - a);
+
+  return (
+    <div className={styles.performanceSection} ref={sectionRef}>
+      <div className={styles.performanceHeader}>
+        <h2>연도별 사업실적</h2>
+        <p className={styles.historyIntro}>
+          ISM Design은 독창적 디자인의 우월성을 확보하고 국제적 경쟁력을 갖춘 디자인 전문가 그룹으로 성장하고 있습니다.
+        </p>
+      </div>
+
+      <div className={styles.historyTimeline}>
+        {years.map((year) => (
+          <div 
+            key={year} 
+            className={styles.yearBlock}
+            data-year={year}
+            ref={el => yearRefs.current[year] = el}
+          >
+            <div 
+              className={`${styles.yearHeader} ${openYears[year] ? styles.active : ''}`}
+              onClick={() => toggleYear(year)}
+            >
+              <span className={styles.yearTitle}>{year}</span>
+              <span className={styles.yearCount}>
+                {projectHistoryData[year].length} projects
+              </span>
+              <span className={styles.toggleIcon}>
+                {openYears[year] ? '−' : '+'}
+              </span>
+            </div>
+
+            <div 
+              className={`${styles.projectList} ${openYears[year] ? styles.open : ''}`}
+            >
+              <ul>
+                {projectHistoryData[year].map((project, index) => (
+                  <li key={index} className={styles.projectItem}>
+                    <div className={styles.projectInfo}>
+                      <span className={styles.projectClient}>{project.client}</span>
+                      <span className={styles.projectTitle}>{project.title}</span>
+                    </div>
+                    {project.hasPortfolio && (
+                      <Link 
+                        href={getPortfolioLink(project)}
+                        className={styles.viewBtn}
+                      >
+                        View
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function About() {
   const [activeTab, setActiveTab] = useState(0);
@@ -261,58 +371,7 @@ export default function About() {
         )}
 
         {activeTab === 1 && (
-          <div className={styles.section}>
-            <h2>연도별 사업실적</h2>
-            <p className={styles.historyIntro}>
-              ISM Design은 독창적 디자인의 우월성을 확보하고 국제적 경쟁력을 갖춘 디자인 전문가 그룹으로 성장하고 있습니다.
-            </p>
-            <div className={styles.timeline}>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineYear}>2025</div>
-                <div className={styles.timelineContent}>
-                  <ul>
-                    <li>진행 예정 프로젝트</li>
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineYear}>2024</div>
-                <div className={styles.timelineContent}>
-                  <ul>
-                    <li>광주 봉산지구 첨단 제일풍경채 [청라래미안] 디자인</li>
-                    <li>평택 가재지구 2블럭 제일풍경채 [힐스테이트] 디자인</li>
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineYear}>2023</div>
-                <div className={styles.timelineContent}>
-                  <ul>
-                    <li>양양 구교리 금호어울림 [청량리역 한양수자인] 그라시엘</li>
-                    <li>경산 하양지구 제일풍경채 [행정안전부장관상]</li>
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineYear}>2022</div>
-                <div className={styles.timelineContent}>
-                  <ul>
-                    <li>고덕 강일지구 1블럭 제일풍경채 [롯데캐슬] 디자인</li>
-                    <li>LH 주공불광점 최우수상 [김포 한강신도시 베트로타워 에이치]</li>
-                  </ul>
-                </div>
-              </div>
-              <div className={styles.timelineItem}>
-                <div className={styles.timelineYear}>2021</div>
-                <div className={styles.timelineContent}>
-                  <ul>
-                    <li>ISM Design 창립 15주년</li>
-                    <li>베트남지사 설립</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
+          <PerformanceSection />
         )}
 
         {activeTab === 2 && (

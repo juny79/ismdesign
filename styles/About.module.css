@@ -1016,3 +1016,254 @@
   mix-blend-mode: screen;
   transition: opacity 0.3s ease;
 }
+
+/* ==================== 연도별 사업실적 (Performance History) ==================== */
+
+.performanceSection {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.performanceHeader {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.performanceHeader h2 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.historyIntro {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.historyTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+/* Year Block */
+.yearBlock {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.yearBlock:hover {
+  border-color: rgba(255, 140, 90, 0.4);
+  box-shadow: 0 8px 32px rgba(255, 140, 90, 0.15);
+}
+
+/* Year Header (Accordion Button) */
+.yearHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.yearHeader:hover {
+  background: rgba(255, 140, 90, 0.08);
+}
+
+.yearHeader.active {
+  background: rgba(255, 140, 90, 0.12);
+  border-bottom-color: rgba(255, 140, 90, 0.3);
+}
+
+.yearTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ff8c5a;
+  letter-spacing: -0.5px;
+  flex: 0 0 auto;
+}
+
+.yearCount {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: auto;
+  margin-right: 20px;
+  font-weight: 500;
+}
+
+.toggleIcon {
+  font-size: 32px;
+  color: #ff8c5a;
+  font-weight: 300;
+  width: 32px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.yearHeader.active .toggleIcon {
+  transform: rotate(180deg);
+}
+
+/* Project List (Accordion Content) */
+.projectList {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.projectList.open {
+  max-height: 3000px;
+}
+
+.projectList ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Project Item */
+.projectItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  gap: 20px;
+}
+
+.projectItem:last-child {
+  border-bottom: none;
+}
+
+.projectItem:hover {
+  background: rgba(255, 140, 90, 0.05);
+  padding-left: 40px;
+}
+
+.projectInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.projectClient {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.projectTitle {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* View Button */
+.viewBtn {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, #ff8c5a 0%, #ff6b35 100%);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(255, 140, 90, 0.3);
+}
+
+.viewBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 140, 90, 0.5);
+  background: linear-gradient(135deg, #ff9d6b 0%, #ff7b46 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .performanceSection {
+    padding: 60px 20px;
+  }
+
+  .performanceHeader h2 {
+    font-size: 36px;
+  }
+
+  .historyIntro {
+    font-size: 16px;
+  }
+
+  .yearHeader {
+    padding: 20px 20px;
+  }
+
+  .yearTitle {
+    font-size: 24px;
+  }
+
+  .yearCount {
+    font-size: 12px;
+    margin-right: 12px;
+  }
+
+  .toggleIcon {
+    font-size: 24px;
+    width: 24px;
+  }
+
+  .projectItem {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 20px;
+    gap: 12px;
+  }
+
+  .projectItem:hover {
+    padding-left: 24px;
+  }
+
+  .projectClient {
+    font-size: 13px;
+  }
+
+  .projectTitle {
+    font-size: 14px;
+  }
+
+  .viewBtn {
+    padding: 8px 20px;
+    font-size: 13px;
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .performanceSection {
+    padding: 70px 30px;
+  }
+
+  .yearTitle {
+    font-size: 28px;
+  }
+
+  .projectItem {
+    padding: 18px 28px;
+  }
+}
