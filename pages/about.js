@@ -66,7 +66,7 @@ function PerformanceSection() {
       <div className={styles.performanceHeader}>
         <h2>연도별 사업실적</h2>
         <p className={styles.historyIntro}>
-          ISM Design은 독창적 디자인의 우월성을 확보하고 국제적 경쟁력을 갖춘 디자인 전문가 그룹으로 성장하고 있습니다.
+          ISM Design은 독창적이고 안정적인 설계 결과물을 고객사에게 제공하며, 경쟁력을 갖춘 설계 디자인의 완성도를 높여왔습니다.
         </p>
       </div>
 
