@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Contact.module.css";
@@ -12,60 +13,106 @@ const COMPANY = {
 
 export default function Contact() {
 	const mapRef = useRef(null);
+	const [debugInfo, setDebugInfo] = React.useState({
+		sdkLoaded: false,
+		apiKeyPresent: false,
+		mapInitialized: false,
+		error: null,
+	});
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 
 		const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
+		
+		// Debug: Check API key
 		if (!KAKAO_KEY) {
-			console.warn("Kakao API key not set");
+			const msg = "❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
+			console.warn(msg);
+			setDebugInfo(prev => ({...prev, apiKeyPresent: false, error: msg}));
 			return;
 		}
+
+		setDebugInfo(prev => ({...prev, apiKeyPresent: true}));
 
 		// Load Kakao SDK only if not already loaded
 		if (!window.kakao) {
 			const script = document.createElement("script");
 			script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
 			script.async = true;
-			script.onload = initMap;
-			script.onerror = () => console.error("Kakao Maps SDK failed to load");
+			
+			script.onload = () => {
+				console.log("✅ Kakao SDK loaded successfully");
+				setDebugInfo(prev => ({...prev, sdkLoaded: true}));
+				initMap();
+			};
+			
+			script.onerror = (error) => {
+				const msg = `❌ Kakao SDK failed to load. Error: ${error}. Check: 1) API key validity, 2) Domain registered in Kakao Console, 3) CORS settings`;
+				console.error(msg);
+				setDebugInfo(prev => ({...prev, error: msg}));
+			};
+			
 			document.head.appendChild(script);
 		} else {
+			console.log("✅ Kakao SDK already loaded");
+			setDebugInfo(prev => ({...prev, sdkLoaded: true}));
 			initMap();
 		}
 
 		function initMap() {
-			if (!mapRef.current || !window.kakao) return;
+			if (!mapRef.current) {
+				console.error("❌ Map ref not available");
+				setDebugInfo(prev => ({...prev, error: "Map container not found"}));
+				return;
+			}
 
-			const mapContainer = mapRef.current;
-			const mapOption = {
-				center: new window.kakao.maps.LatLng(37.1916, 127.0764),
-				level: 3,
-			};
+			if (!window.kakao) {
+				console.error("❌ Window.kakao not available");
+				return;
+			}
 
-			const map = new window.kakao.maps.Map(mapContainer, mapOption);
-			const geocoder = new window.kakao.maps.services.Geocoder();
+			try {
+				const mapContainer = mapRef.current;
+				const mapOption = {
+					center: new window.kakao.maps.LatLng(37.1916, 127.0764),
+					level: 3,
+				};
 
-			geocoder.addressSearch(COMPANY.address, (result, status) => {
-				if (status === window.kakao.maps.services.Status.OK) {
-					const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+				const map = new window.kakao.maps.Map(mapContainer, mapOption);
+				console.log("✅ Map initialized");
+				setDebugInfo(prev => ({...prev, mapInitialized: true}));
 
-					const marker = new window.kakao.maps.Marker({
-						map: map,
-						position: coords,
-					});
+				const geocoder = new window.kakao.maps.services.Geocoder();
 
-					const infowindow = new window.kakao.maps.InfoWindow({
-						content: `<div style="width:180px;text-align:center;padding:10px;font-weight:600;color:#333;font-size:13px;">${COMPANY.name}</div>`,
-						removable: true,
-					});
+				geocoder.addressSearch(COMPANY.address, (result, status) => {
+					if (status === window.kakao.maps.services.Status.OK) {
+						console.log("✅ Address search successful:", result);
+						const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
-					infowindow.open(map, marker);
-					map.setCenter(coords);
-				} else {
-					console.error("Address search failed:", status);
-				}
-			});
+						const marker = new window.kakao.maps.Marker({
+							map: map,
+							position: coords,
+						});
+
+						const infowindow = new window.kakao.maps.InfoWindow({
+							content: `<div style="width:180px;text-align:center;padding:10px;font-weight:600;color:#333;font-size:13px;">${COMPANY.name}</div>`,
+							removable: true,
+						});
+
+						infowindow.open(map, marker);
+						map.setCenter(coords);
+					} else {
+						const msg = `❌ Address search failed. Status: ${status}. Geocoding service may not be enabled in Kakao Console.`;
+						console.error(msg);
+						setDebugInfo(prev => ({...prev, error: msg}));
+					}
+				});
+			} catch (err) {
+				const msg = `❌ Error initializing map: ${err.message}`;
+				console.error(msg);
+				setDebugInfo(prev => ({...prev, error: msg}));
+			}
 		}
 	}, []);
 
@@ -99,6 +146,34 @@ export default function Contact() {
 			<div className={styles.mainContent}>
 				<div className={styles.content}>
 					<h1 className={styles.pageTitle}>CONTACT</h1>
+
+					{/* Debug Info */}
+					{(debugInfo.error || !debugInfo.mapInitialized) && (
+						<div className={styles.debugContainer}>
+							<div className={styles.debugHeader}>🔍 진단 정보</div>
+							<div className={styles.debugRow}>
+								<span className={styles.debugLabel}>API 키 설정:</span>
+								<span className={debugInfo.apiKeyPresent ? styles.success : styles.error}>
+									{debugInfo.apiKeyPresent ? "✅ 정상" : "❌ 미설정"}
+								</span>
+							</div>
+							<div className={styles.debugRow}>
+								<span className={styles.debugLabel}>SDK 로드:</span>
+								<span className={debugInfo.sdkLoaded ? styles.success : styles.error}>
+									{debugInfo.sdkLoaded ? "✅ 완료" : "⏳ 진행 중"}
+								</span>
+							</div>
+							<div className={styles.debugRow}>
+								<span className={styles.debugLabel}>지도 초기화:</span>
+								<span className={debugInfo.mapInitialized ? styles.success : styles.error}>
+									{debugInfo.mapInitialized ? "✅ 완료" : "⏳ 진행 중"}
+								</span>
+							</div>
+							{debugInfo.error && (
+								<div className={styles.errorMessage}>{debugInfo.error}</div>
+							)}
+						</div>
+					)}
 
 					<div className={styles.contactSection}>
 					{/* Left: Info Box */}
