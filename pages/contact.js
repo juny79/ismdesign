@@ -124,9 +124,21 @@ Details: ${JSON.stringify(errorDetails)}
 
 			// Check if Kakao Maps API is fully loaded
 			if (!window.kakao || !window.kakao.maps || !window.kakao.maps.LatLng) {
-				console.error("❌ Kakao Maps API not fully loaded yet. Waiting...");
-				// Retry after 500ms
-				setTimeout(initMap, 500);
+				console.error("❌ Kakao Maps API not fully loaded. Kakao structure:", {
+					kakao: !!window.kakao,
+					maps: !!window.kakao?.maps,
+					LatLng: !!window.kakao?.maps?.LatLng,
+				});
+				const msg = `❌ Kakao Maps API not fully initialized
+Window.kakao 상태: ${!window.kakao ? '없음' : '있음'}
+Window.kakao.maps 상태: ${!window.kakao?.maps ? '없음' : '있음'}
+Window.kakao.maps.LatLng 상태: ${!window.kakao?.maps?.LatLng ? '없음' : '있음'}
+
+원인: Kakao SDK가 완전히 로드되지 않음
+해결: Kakao Console 확인
+1. 플랫폼 키 → JS SDK 도메인에 localhost:3000 등록
+2. 추가 기능 신청 → 카카오맵 신청`;
+				setDebugInfo(prev => ({...prev, error: msg}));
 				return;
 			}
 
