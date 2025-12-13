@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Contact.module.css";
@@ -13,50 +12,86 @@ const COMPANY = {
 
 export default function Contact() {
 	const mapRef = useRef(null);
-	const [debugInfo, setDebugInfo] = React.useState({
+	const [debugInfo, setDebugInfo] = useState({
 		sdkLoaded: false,
 		apiKeyPresent: false,
 		mapInitialized: false,
 		error: null,
+		hostname: "",
 	});
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 
 		const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
-		
+
 		// Debug: Check API key
 		if (!KAKAO_KEY) {
-			const msg = "❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
+			const msg =
+				"❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
 			console.warn(msg);
-			setDebugInfo(prev => ({...prev, apiKeyPresent: false, error: msg}));
+			setDebugInfo((prev) => ({
+				...prev,
+				apiKeyPresent: false,
+				error: msg,
+				hostname: window.location.hostname,
+			}));
 			return;
 		}
 
-		setDebugInfo(prev => ({...prev, apiKeyPresent: true}));
+		setDebugInfo((prev) => ({ ...prev, apiKeyPresent: true, hostname: window.location.hostname }));
+		console.log("✅ API Key detected:", KAKAO_KEY.substring(0, 8) + "***");
+		console.log("Current domain:", window.location.hostname);
+		console.log("Current protocol:", window.location.protocol);
 
 		// Load Kakao SDK only if not already loaded
 		if (!window.kakao) {
 			const script = document.createElement("script");
-			script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
+			const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
+			script.src = sdkUrl;
 			script.async = true;
-			
+
+			console.log("Loading Kakao SDK from:", sdkUrl);
+
 			script.onload = () => {
 				console.log("✅ Kakao SDK loaded successfully");
-				setDebugInfo(prev => ({...prev, sdkLoaded: true}));
+				setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
 				initMap();
 			};
-			
-			script.onerror = (error) => {
-				const msg = `❌ Kakao SDK failed to load. Error: ${error}. Check: 1) API key validity, 2) Domain registered in Kakao Console, 3) CORS settings`;
+
+			script.onerror = (event) => {
+				// More detailed error information
+				const errorDetails = {
+					type: event.type,
+					target: event.target?.src,
+					readyState: event.target?.readyState,
+				};
+
+				const msg = `❌ Kakao SDK failed to load.
+Details: ${JSON.stringify(errorDetails)}
+
+🔴 주요 원인:
+1️⃣ Kakao Console에 도메인 미등록 (평가판 앱은 localhost만 가능)
+2️⃣ API 키 유효하지 않음
+3️⃣ Web 플랫폼 미등록
+4️⃣ Maps API 서비스 비활성화
+
+✅ 해결 절차:
+→ https://developers.kakao.com/console 접속
+→ 앱 선택 → '앱 설정' → '플랫폼' 탭
+→ Web 추가 후 도메인 등록 (localhost:3000, 127.0.0.1:3000)
+→ '제품' → 'Maps API' → '활성화'
+→ 2-3분 후 새로고침`;
+
 				console.error(msg);
-				setDebugInfo(prev => ({...prev, error: msg}));
+				console.error("Full error event:", event);
+				setDebugInfo((prev) => ({ ...prev, error: msg }));
 			};
-			
+
 			document.head.appendChild(script);
 		} else {
 			console.log("✅ Kakao SDK already loaded");
-			setDebugInfo(prev => ({...prev, sdkLoaded: true}));
+			setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
 			initMap();
 		}
 
@@ -150,7 +185,7 @@ export default function Contact() {
 					{/* Debug Info */}
 					{(debugInfo.error || !debugInfo.mapInitialized) && (
 						<div className={styles.debugContainer}>
-							<div className={styles.debugHeader}>🔍 진단 정보</div>
+							<div className={styles.debugHeader}>🔍 진단 정보 (로컬: {debugInfo.hostname})</div>
 							<div className={styles.debugRow}>
 								<span className={styles.debugLabel}>API 키 설정:</span>
 								<span className={debugInfo.apiKeyPresent ? styles.success : styles.error}>
