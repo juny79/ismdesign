@@ -102,8 +102,11 @@ Details: ${JSON.stringify(errorDetails)}
 				return;
 			}
 
-			if (!window.kakao) {
-				console.error("❌ Window.kakao not available");
+			// Check if Kakao Maps API is fully loaded
+			if (!window.kakao || !window.kakao.maps || !window.kakao.maps.LatLng) {
+				console.error("❌ Kakao Maps API not fully loaded yet. Waiting...");
+				// Retry after 500ms
+				setTimeout(initMap, 500);
 				return;
 			}
 
@@ -144,8 +147,11 @@ Details: ${JSON.stringify(errorDetails)}
 					}
 				});
 			} catch (err) {
-				const msg = `❌ Error initializing map: ${err.message}`;
+				const msg = `❌ Error initializing map: ${err.message}
+Details: ${err.stack}
+Check: window.kakao.maps.LatLng 생성자 존재 확인`;
 				console.error(msg);
+				console.error("window.kakao structure:", window.kakao);
 				setDebugInfo(prev => ({...prev, error: msg}));
 			}
 		}
