@@ -80,23 +80,27 @@ export default function Contact() {
 						<Image
 							src="/ism-logo-new.png"
 							alt="ISM"
-							width={100}
-							height={60}
+							width={120}
+							height={70}
 							priority
+							className={styles.logoIcon}
 						/>
 					</Link>
 				</div>
 				<div className={styles.navRight}>
-					<Link href="/about" className={styles.navLink}>ABOUT</Link>
-					<Link href="/portfolio" className={styles.navLink}>PORTFOLIO</Link>
-					<span className={styles.navLink} style={{ color: "#ff8c5a" }}>CONTACT</span>
+					<ul className={styles.menu}>
+						<li><Link href="/about">About us</Link></li>
+						<li><Link href="/portfolio">Portfolio</Link></li>
+						<li><Link href="/contact" className={styles.active}>Contact</Link></li>
+					</ul>
 				</div>
 			</nav>
 
-			<div className={styles.content}>
-				<h1 className={styles.pageTitle}>CONTACT</h1>
+			<div className={styles.mainContent}>
+				<div className={styles.content}>
+					<h1 className={styles.pageTitle}>CONTACT</h1>
 
-				<div className={styles.contactSection}>
+					<div className={styles.contactSection}>
 					{/* Left: Info Box */}
 					<div className={styles.infoSection}>
 						<h2 className={styles.infoTitle}>{COMPANY.name}</h2>
@@ -130,6 +134,7 @@ export default function Contact() {
 
 					{/* Right: Map */}
 					<div ref={mapRef} className={styles.mapContainer} id="map" />
+				</div>
 				</div>
 			</div>
 		</div>

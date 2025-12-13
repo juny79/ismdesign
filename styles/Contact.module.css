@@ -1,73 +1,106 @@
-/* Contact Page Styles - Inspired by ANU Design Group */
+/* Contact Page Styles - Dark Theme Consistent with About & Portfolio */
 
 .container {
   width: 100%;
   min-height: 100vh;
-  background: #ffffff;
-  color: #333;
+  background: linear-gradient(135deg, #3a3d45 0%, #4a4e58 50%, #3a3d45 100%);
+  color: #fff;
+  position: relative;
 }
 
-/* Navbar */
+/* Navbar - Centered like About & Portfolio */
 .navbar {
   position: sticky;
   top: 0;
-  width: 100%;
+  width: 92%;
+  max-width: 1400px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  background: #fff;
-  border-bottom: 1px solid #eee;
+  padding: 32px 28px;
+  margin: 0 auto;
   z-index: 100;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.24) 45%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-radius: 0 0 24px 24px;
 }
 
 .navLeft {
   display: flex;
   align-items: center;
+  flex: 0 0 auto;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 auto;
 }
 
 .logo {
   display: inline-flex;
   align-items: center;
   text-decoration: none;
-  transition: opacity 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .logo:hover {
-  opacity: 0.8;
+  transform: translateY(-2px);
 }
 
-.navRight {
+.logoIcon {
+  width: auto;
+  height: 70px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+.menu {
   display: flex;
-  align-items: center;
-  gap: 30px;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.navLink {
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
+.menu li a {
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  padding: 8px 0;
   transition: color 0.3s ease;
 }
 
-.navLink:hover {
-  color: #000;
+.menu li a:hover,
+.menu li a.active {
+  color: #ffffff;
 }
 
-/* Content */
+/* Main Content */
+.mainContent {
+  width: 100%;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .content {
+  width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
-  padding: 60px 40px;
 }
 
 .pageTitle {
   text-align: center;
   font-size: 48px;
   font-weight: 700;
-  color: #000;
+  color: #ffffff;
   margin-bottom: 20px;
   letter-spacing: -1px;
 }
@@ -92,17 +125,19 @@
 
 /* Info Section */
 .infoSection {
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.05);
   padding: 40px 32px;
   border-radius: 4px;
   border-left: 4px solid #ff8c5a;
   height: fit-content;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .infoTitle {
   font-size: 24px;
   font-weight: 700;
-  color: #000;
+  color: #ffffff;
   margin-bottom: 8px;
 }
 
@@ -123,7 +158,7 @@
 .infoGroup {
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .infoGroup:last-child {
@@ -134,7 +169,7 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: #999;
+  color: rgba(255, 255, 255, 0.7);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px;
@@ -143,7 +178,7 @@
 .infoText {
   margin: 0;
   font-size: 14px;
-  color: #333;
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
   font-weight: 400;
 }
@@ -197,7 +232,7 @@
   min-height: 500px;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive */
@@ -218,19 +253,20 @@
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 16px 20px;
-    flex-direction: column;
-    gap: 16px;
+    width: 95%;
+    padding: 20px 20px;
   }
 
-  .navRight {
-    gap: 16px;
-    width: 100%;
-    justify-content: center;
+  .menu {
+    gap: 20px;
   }
 
-  .content {
-    padding: 40px 20px;
+  .menu li a {
+    font-size: 14px;
+  }
+
+  .mainContent {
+    padding: 40px 16px;
   }
 
   .pageTitle {
@@ -254,24 +290,25 @@
   .mapContainer {
     min-height: 350px;
   }
-
-  .navLink {
-    font-size: 12px;
-    gap: 12px;
-  }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 12px 12px;
+    width: 100%;
+    padding: 16px 12px;
+    border-radius: 0;
   }
 
-  .navRight {
-    gap: 10px;
+  .menu {
+    gap: 12px;
   }
 
-  .content {
-    padding: 30px 16px;
+  .menu li a {
+    font-size: 12px;
+  }
+
+  .mainContent {
+    padding: 30px 12px;
   }
 
   .pageTitle {
