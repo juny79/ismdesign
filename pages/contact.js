@@ -122,8 +122,12 @@ Details: ${JSON.stringify(errorDetails)}
 				setDebugInfo(prev => ({...prev, mapInitialized: true}));
 
 				const geocoder = new window.kakao.maps.services.Geocoder();
+				console.log("🔄 Attempting address search for:", COMPANY.address);
 
 				geocoder.addressSearch(COMPANY.address, (result, status) => {
+					console.log("📍 Geocoder callback triggered. Status:", status);
+					console.log("📍 Available status values:", window.kakao.maps.services.Status);
+					
 					if (status === window.kakao.maps.services.Status.OK) {
 						console.log("✅ Address search successful:", result);
 						const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
@@ -140,8 +144,21 @@ Details: ${JSON.stringify(errorDetails)}
 
 						infowindow.open(map, marker);
 						map.setCenter(coords);
+						console.log("✅ Marker and infowindow displayed");
 					} else {
-						const msg = `❌ Address search failed. Status: ${status}. Geocoding service may not be enabled in Kakao Console.`;
+						const statusMap = {
+							0: "ZERO (검색 결과 없음)",
+							1: "OK (성공)",
+							2: "MAX_BOUND_EXCEEDED (검색 범위 초과)",
+							3: "REQUEST_DENIED (요청 거부)",
+							4: "UNKNOWN_ERROR (알 수 없는 에러)",
+						};
+						const msg = `❌ Address search failed. Status: ${status} (${statusMap[status] || "Unknown"})
+검색 주소: ${COMPANY.address}
+Kakao Console에서 확인사항:
+1. Local API (주소 검색) 활성화 필요
+2. 앱 설정 → 추가 기능 신청 → "카카오 로컬" 신청 필요
+3. 도메인 등록 확인`;
 						console.error(msg);
 						setDebugInfo(prev => ({...prev, error: msg}));
 					}
