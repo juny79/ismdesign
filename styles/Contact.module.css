@@ -1,0 +1,106 @@
+/* Contact page styles */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3a3d45 0%, #4a4e58 50%, #3a3d45 100%);
+  color: #fff;
+  padding: 40px 20px;
+}
+
+.title {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+  font-size: 32px;
+  color: #ff8c5a;
+}
+
+.mapSection {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.map {
+  flex: 1 1 600px;
+  min-width: 300px;
+  height: 480px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.1));
+}
+
+.mapFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.85);
+  padding: 20px;
+  text-align: center;
+}
+
+.infoBox {
+  flex: 0 0 320px;
+  background: rgba(0,0,0,0.36);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.infoBox h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.infoBox p {
+  margin: 10px 0;
+  color: rgba(255,255,255,0.9);
+}
+
+.infoBox strong {
+  display: inline-block;
+  width: 70px;
+  color: rgba(255,255,255,0.85);
+}
+
+.mapLinks {
+  margin-top: 10px;
+}
+
+.btn {
+  display: inline-block;
+  margin-right: 12px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+}
+
+.naver {
+  background: #00bf18;
+}
+
+.kakao {
+  background: #ffcd00;
+  color: #3a1d1d;
+}
+
+.note {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .mapSection { flex-direction: column; }
+  .map { height: 320px; }
+  .infoBox { width: 100%; flex: none; }
+  .title { font-size: 24px; }
+}
