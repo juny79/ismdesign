@@ -35,3 +35,6 @@ next-env.d.ts
 
 # image folder
 /test/.env.local
+*.png
+*.gif
+*.jpg
