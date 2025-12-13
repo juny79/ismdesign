@@ -23,51 +23,68 @@ export default function Contact() {
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 
-		const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
+		// Wait a bit for DOM to be fully rendered
+		const timer = setTimeout(() => {
+			const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
 
-		// Debug: Check API key
-		if (!KAKAO_KEY) {
-			const msg =
-				"❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
-			console.warn(msg);
-			setDebugInfo((prev) => ({
-				...prev,
-				apiKeyPresent: false,
-				error: msg,
-				hostname: window.location.hostname,
-			}));
-			return;
-		}
+			// Debug: Check API key
+			if (!KAKAO_KEY) {
+				const msg =
+					"❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
+				console.warn(msg);
+				setDebugInfo((prev) => ({
+					...prev,
+					apiKeyPresent: false,
+					error: msg,
+					hostname: window.location.hostname,
+				}));
+				return;
+			}
 
-		setDebugInfo((prev) => ({ ...prev, apiKeyPresent: true, hostname: window.location.hostname }));
-		console.log("✅ API Key detected:", KAKAO_KEY.substring(0, 8) + "***");
-		console.log("Current domain:", window.location.hostname);
-		console.log("Current protocol:", window.location.protocol);
+			// Verify map container exists
+			if (!mapRef.current) {
+				console.error("❌ mapRef.current is null - DOM not ready");
+				setDebugInfo((prev) => ({
+					...prev,
+					error: "Map container not found in DOM",
+				}));
+				return;
+			}
 
-		// Load Kakao SDK only if not already loaded
-		if (!window.kakao) {
-			const script = document.createElement("script");
-			const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
-			script.src = sdkUrl;
-			script.async = true;
+			console.log("✅ Map container found, dimensions:", {
+				width: mapRef.current.offsetWidth,
+				height: mapRef.current.offsetHeight,
+			});
 
-			console.log("Loading Kakao SDK from:", sdkUrl);
+			setDebugInfo((prev) => ({ ...prev, apiKeyPresent: true, hostname: window.location.hostname }));
+			console.log("✅ API Key detected:", KAKAO_KEY.substring(0, 8) + "***");
+			console.log("Current domain:", window.location.hostname);
+			console.log("Current protocol:", window.location.protocol);
 
-			script.onload = () => {
-				console.log("✅ Kakao SDK loaded successfully");
-				setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
-				initMap();
-			};
+			// Load Kakao SDK only if not already loaded
+			if (!window.kakao) {
+				const script = document.createElement("script");
+				const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
+				script.src = sdkUrl;
+				script.async = true;
 
-			script.onerror = (event) => {
-				// More detailed error information
-				const errorDetails = {
-					type: event.type,
-					target: event.target?.src,
-					readyState: event.target?.readyState,
+				console.log("Loading Kakao SDK from:", sdkUrl);
+
+				script.onload = () => {
+					console.log("✅ Kakao SDK loaded successfully");
+					setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
+					initMap();
 				};
 
-				const msg = `❌ Kakao SDK failed to load.
+				script.onerror = (event) => {
+					// More detailed error information
+					const errorDetails = {
+						type: event.type,
+						target: event.target?.src,
+						readyState: event.target?.readyState,
+					};
+
+					const msg = `❌ Kakao SDK failed to load.
 Details: ${JSON.stringify(errorDetails)}
 
 🔴 주요 원인:
@@ -83,17 +100,20 @@ Details: ${JSON.stringify(errorDetails)}
 → '제품' → 'Maps API' → '활성화'
 → 2-3분 후 새로고침`;
 
-				console.error(msg);
-				console.error("Full error event:", event);
-				setDebugInfo((prev) => ({ ...prev, error: msg }));
-			};
+					console.error(msg);
+					console.error("Full error event:", event);
+					setDebugInfo((prev) => ({ ...prev, error: msg }));
+				};
 
-			document.head.appendChild(script);
-		} else {
-			console.log("✅ Kakao SDK already loaded");
-			setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
-			initMap();
-		}
+				document.head.appendChild(script);
+			} else {
+				console.log("✅ Kakao SDK already loaded");
+				setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
+				initMap();
+			}
+		}, 100); // 100ms 대기하여 DOM 렌더링 완료 확인
+
+		return () => clearTimeout(timer);
 
 		function initMap() {
 			if (!mapRef.current) {
