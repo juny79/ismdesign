@@ -1,18 +1,12 @@
+# All robots
 User-agent: *
 Allow: /
 
-# Naver
-User-agent: Naver
-Allow: /
-
-# Google
-User-agent: Googlebot
-Allow: /
-
-# Block specific directories
+# Block private directories
 Disallow: /_next/
 Disallow: /.next/
 Disallow: /api/
 
 # Sitemap
 Sitemap: https://ismdesign.co.kr/sitemap.xml
+Sitemap: https://www.ismdesign.co.kr/sitemap.xml
