@@ -1,3 +1,18 @@
 User-agent: *
-Disallow: /
-Allow: /$
+Allow: /
+
+# Naver
+User-agent: Naver
+Allow: /
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Block specific directories
+Disallow: /_next/
+Disallow: /.next/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://ismdesign.co.kr/sitemap.xml
