@@ -64,8 +64,13 @@ export default function Contact() {
 
 				// Geocoder로 주소 검색
 				const geocoder = new window.kakao.maps.services.Geocoder();
+				console.log("🔄 Starting address search for:", COMPANY.address);
 
 				geocoder.addressSearch(COMPANY.address, (result, status) => {
+					console.log("📍 Geocoder callback - Status:", status);
+					console.log("📍 Status.OK value:", window.kakao.maps.services.Status.OK);
+					console.log("📍 Result:", result);
+
 					if (status === window.kakao.maps.services.Status.OK) {
 						console.log("✅ Address search successful");
 						const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
@@ -86,7 +91,18 @@ export default function Contact() {
 						map.setCenter(coords);
 						console.log("✅ Marker and infowindow displayed");
 					} else {
-						console.error("❌ Address search failed. Status:", status);
+						const statusMap = {
+							0: "ZERO - 검색 결과 없음",
+							1: "OK - 성공",
+							2: "MAX_BOUND_EXCEEDED - 검색 범위 초과",
+							3: "REQUEST_DENIED - 요청 거부",
+							4: "UNKNOWN_ERROR - 알 수 없는 에러",
+						};
+						console.error(`❌ Address search failed. Status: ${status} (${statusMap[status] || "Unknown"})`);
+						console.error("주소 검색 실패 이유:");
+						console.error("1. Kakao Console에서 비즈니스 정보 심사 필요");
+						console.error("2. 추가 기능 신청 → 카카오맵 또는 카카오 로컬 신청 필요");
+						console.error("3. 도메인 등록 확인");
 					}
 				});
 			} catch (error) {
