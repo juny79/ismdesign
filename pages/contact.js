@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "../styles/Contact.module.css";
@@ -12,163 +12,71 @@ const COMPANY = {
 
 export default function Contact() {
 	const mapRef = useRef(null);
-	const [debugInfo, setDebugInfo] = useState({
-		sdkLoaded: false,
-		apiKeyPresent: false,
-		mapInitialized: false,
-		error: null,
-		hostname: "",
-	});
 
 	useEffect(() => {
+		// 클라이언트 사이드에서만 실행
 		if (typeof window === "undefined") return;
 
-		// Wait a bit for DOM to be fully rendered
-		const timer = setTimeout(() => {
-			const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
+		const KAKAO_KEY = process.env.NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY;
 
-			// Debug: Check API key
-			if (!KAKAO_KEY) {
-				const msg =
-					"❌ Kakao API key not set. Add NEXT_PUBLIC_KAKAO_MAP_JAVASCRIPT_KEY to .env.local or Vercel env vars";
-				console.warn(msg);
-				setDebugInfo((prev) => ({
-					...prev,
-					apiKeyPresent: false,
-					error: msg,
-					hostname: window.location.hostname,
-				}));
-				return;
-			}
+		if (!KAKAO_KEY) {
+			console.error("❌ Kakao API key not set");
+			return;
+		}
 
-			// Verify map container exists
-			if (!mapRef.current) {
-				console.error("❌ mapRef.current is null - DOM not ready");
-				setDebugInfo((prev) => ({
-					...prev,
-					error: "Map container not found in DOM",
-				}));
-				return;
-			}
+		// Kakao SDK 로드 (이미 로드된 경우 skip)
+		if (window.kakao && window.kakao.maps) {
+			initMap();
+			return;
+		}
 
-			console.log("✅ Map container found, dimensions:", {
-				width: mapRef.current.offsetWidth,
-				height: mapRef.current.offsetHeight,
-			});
+		// SDK 로드
+		const script = document.createElement("script");
+		script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
+		script.async = true;
 
-			setDebugInfo((prev) => ({ ...prev, apiKeyPresent: true, hostname: window.location.hostname }));
-			console.log("✅ API Key detected:", KAKAO_KEY.substring(0, 8) + "***");
-			console.log("Current domain:", window.location.hostname);
-			console.log("Current protocol:", window.location.protocol);
+		script.onload = () => {
+			console.log("✅ Kakao SDK loaded");
+			initMap();
+		};
 
-			// Load Kakao SDK only if not already loaded
-			if (!window.kakao) {
-				const script = document.createElement("script");
-				const sdkUrl = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_KEY}&libraries=services`;
-				script.src = sdkUrl;
-				script.async = true;
+		script.onerror = () => {
+			console.error("❌ Failed to load Kakao SDK");
+		};
 
-				console.log("Loading Kakao SDK from:", sdkUrl);
-
-				script.onload = () => {
-					console.log("✅ Kakao SDK loaded successfully");
-					setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
-					initMap();
-				};
-
-				script.onerror = (event) => {
-					// More detailed error information
-					const errorDetails = {
-						type: event.type,
-						target: event.target?.src,
-						readyState: event.target?.readyState,
-					};
-
-					const msg = `❌ Kakao SDK failed to load.
-Details: ${JSON.stringify(errorDetails)}
-
-🔴 주요 원인:
-1️⃣ Kakao Console에 도메인 미등록 (평가판 앱은 localhost만 가능)
-2️⃣ API 키 유효하지 않음
-3️⃣ Web 플랫폼 미등록
-4️⃣ Maps API 서비스 비활성화
-
-✅ 해결 절차:
-→ https://developers.kakao.com/console 접속
-→ 앱 선택 → '앱 설정' → '플랫폼' 탭
-→ Web 추가 후 도메인 등록 (localhost:3000, 127.0.0.1:3000)
-→ '제품' → 'Maps API' → '활성화'
-→ 2-3분 후 새로고침`;
-
-					console.error(msg);
-					console.error("Full error event:", event);
-					setDebugInfo((prev) => ({ ...prev, error: msg }));
-				};
-
-				document.head.appendChild(script);
-			} else {
-				console.log("✅ Kakao SDK already loaded");
-				setDebugInfo((prev) => ({ ...prev, sdkLoaded: true }));
-				initMap();
-			}
-		}, 100); // 100ms 대기하여 DOM 렌더링 완료 확인
-
-		return () => clearTimeout(timer);
+		document.head.appendChild(script);
 
 		function initMap() {
 			if (!mapRef.current) {
-				console.error("❌ Map ref not available");
-				setDebugInfo(prev => ({...prev, error: "Map container not found"}));
-				return;
-			}
-
-			// Check if Kakao Maps API is fully loaded
-			if (!window.kakao || !window.kakao.maps || !window.kakao.maps.LatLng) {
-				console.error("❌ Kakao Maps API not fully loaded. Kakao structure:", {
-					kakao: !!window.kakao,
-					maps: !!window.kakao?.maps,
-					LatLng: !!window.kakao?.maps?.LatLng,
-				});
-				const msg = `❌ Kakao Maps API not fully initialized
-Window.kakao 상태: ${!window.kakao ? '없음' : '있음'}
-Window.kakao.maps 상태: ${!window.kakao?.maps ? '없음' : '있음'}
-Window.kakao.maps.LatLng 상태: ${!window.kakao?.maps?.LatLng ? '없음' : '있음'}
-
-원인: Kakao SDK가 완전히 로드되지 않음
-해결: Kakao Console 확인
-1. 플랫폼 키 → JS SDK 도메인에 localhost:3000 등록
-2. 추가 기능 신청 → 카카오맵 신청`;
-				setDebugInfo(prev => ({...prev, error: msg}));
+				console.error("❌ Map container not found");
 				return;
 			}
 
 			try {
-				const mapContainer = mapRef.current;
-				const mapOption = {
+				// 지도 생성
+				const container = mapRef.current;
+				const options = {
 					center: new window.kakao.maps.LatLng(37.1916, 127.0764),
 					level: 3,
 				};
+				const map = new window.kakao.maps.Map(container, options);
+				console.log("✅ Map initialized successfully");
 
-				const map = new window.kakao.maps.Map(mapContainer, mapOption);
-				console.log("✅ Map initialized");
-				setDebugInfo(prev => ({...prev, mapInitialized: true}));
-
+				// Geocoder로 주소 검색
 				const geocoder = new window.kakao.maps.services.Geocoder();
-				console.log("🔄 Attempting address search for:", COMPANY.address);
 
 				geocoder.addressSearch(COMPANY.address, (result, status) => {
-					console.log("📍 Geocoder callback triggered. Status:", status);
-					console.log("📍 Available status values:", window.kakao.maps.services.Status);
-					
 					if (status === window.kakao.maps.services.Status.OK) {
-						console.log("✅ Address search successful:", result);
+						console.log("✅ Address search successful");
 						const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
 
+						// 마커 생성
 						const marker = new window.kakao.maps.Marker({
 							map: map,
 							position: coords,
 						});
 
+						// 인포윈도우
 						const infowindow = new window.kakao.maps.InfoWindow({
 							content: `<div style="width:180px;text-align:center;padding:10px;font-weight:600;color:#333;font-size:13px;">${COMPANY.name}</div>`,
 							removable: true,
@@ -178,36 +86,14 @@ Window.kakao.maps.LatLng 상태: ${!window.kakao?.maps?.LatLng ? '없음' : '있
 						map.setCenter(coords);
 						console.log("✅ Marker and infowindow displayed");
 					} else {
-						const statusMap = {
-							0: "ZERO (검색 결과 없음)",
-							1: "OK (성공)",
-							2: "MAX_BOUND_EXCEEDED (검색 범위 초과)",
-							3: "REQUEST_DENIED (요청 거부)",
-							4: "UNKNOWN_ERROR (알 수 없는 에러)",
-						};
-						const msg = `❌ Address search failed. Status: ${status} (${statusMap[status] || "Unknown"})
-검색 주소: ${COMPANY.address}
-Kakao Console에서 확인사항:
-1. Local API (주소 검색) 활성화 필요
-2. 앱 설정 → 추가 기능 신청 → "카카오 로컬" 신청 필요
-3. 도메인 등록 확인`;
-						console.error(msg);
-						setDebugInfo(prev => ({...prev, error: msg}));
+						console.error("❌ Address search failed. Status:", status);
 					}
 				});
-			} catch (err) {
-				const msg = `❌ Error initializing map: ${err.message}
-Details: ${err.stack}
-Check: window.kakao.maps.LatLng 생성자 존재 확인`;
-				console.error(msg);
-				console.error("window.kakao structure:", window.kakao);
-				setDebugInfo(prev => ({...prev, error: msg}));
+			} catch (error) {
+				console.error("❌ Error initializing map:", error.message);
 			}
 		}
 	}, []);
-
-	const naverUrl = `https://map.naver.com/v5/search/${encodeURIComponent(COMPANY.address)}`;
-	const kakaoUrl = `https://map.kakao.com/link/search/${encodeURIComponent(COMPANY.address)}`;
 
 	return (
 		<div className={styles.container}>
@@ -237,69 +123,51 @@ Check: window.kakao.maps.LatLng 생성자 존재 확인`;
 				<div className={styles.content}>
 					<h1 className={styles.pageTitle}>CONTACT</h1>
 
-					{/* Debug Info */}
-					{(debugInfo.error || !debugInfo.mapInitialized) && (
-						<div className={styles.debugContainer}>
-							<div className={styles.debugHeader}>🔍 진단 정보 (로컬: {debugInfo.hostname})</div>
-							<div className={styles.debugRow}>
-								<span className={styles.debugLabel}>API 키 설정:</span>
-								<span className={debugInfo.apiKeyPresent ? styles.success : styles.error}>
-									{debugInfo.apiKeyPresent ? "✅ 정상" : "❌ 미설정"}
-								</span>
-							</div>
-							<div className={styles.debugRow}>
-								<span className={styles.debugLabel}>SDK 로드:</span>
-								<span className={debugInfo.sdkLoaded ? styles.success : styles.error}>
-									{debugInfo.sdkLoaded ? "✅ 완료" : "⏳ 진행 중"}
-								</span>
-							</div>
-							<div className={styles.debugRow}>
-								<span className={styles.debugLabel}>지도 초기화:</span>
-								<span className={debugInfo.mapInitialized ? styles.success : styles.error}>
-									{debugInfo.mapInitialized ? "✅ 완료" : "⏳ 진행 중"}
-								</span>
-							</div>
-							{debugInfo.error && (
-								<div className={styles.errorMessage}>{debugInfo.error}</div>
-							)}
-						</div>
-					)}
-
 					<div className={styles.contactSection}>
-					{/* Left: Info Box */}
-					<div className={styles.infoSection}>
-						<h2 className={styles.infoTitle}>{COMPANY.name}</h2>
+						{/* Left: Info Box */}
+						<div className={styles.infoSection}>
+							<h2 className={styles.infoTitle}>{COMPANY.name}</h2>
 
-						<div className={styles.infoDetails}>
-							<div className={styles.infoGroup}>
-								<label className={styles.infoLabel}>주소</label>
-								<p className={styles.infoText}>{COMPANY.address}</p>
+							<div className={styles.infoDetails}>
+								<div className={styles.infoGroup}>
+									<label className={styles.infoLabel}>주소</label>
+									<p className={styles.infoText}>{COMPANY.address}</p>
+								</div>
+
+								<div className={styles.infoGroup}>
+									<label className={styles.infoLabel}>TEL</label>
+									<p className={styles.infoText}>{COMPANY.tel}</p>
+								</div>
+
+								<div className={styles.infoGroup}>
+									<label className={styles.infoLabel}>FAX</label>
+									<p className={styles.infoText}>{COMPANY.fax}</p>
+								</div>
 							</div>
 
-							<div className={styles.infoGroup}>
-								<label className={styles.infoLabel}>TEL</label>
-								<p className={styles.infoText}>{COMPANY.tel}</p>
-							</div>
-
-							<div className={styles.infoGroup}>
-								<label className={styles.infoLabel}>FAX</label>
-								<p className={styles.infoText}>{COMPANY.fax}</p>
+							<div className={styles.mapButtons}>
+								<a 
+									href={`https://map.naver.com/v5/search/${encodeURIComponent(COMPANY.address)}`}
+									target="_blank" 
+									rel="noreferrer" 
+									className={`${styles.mapBtn} ${styles.naver}`}
+								>
+									네이버 지도 보기
+								</a>
+								<a 
+									href={`https://map.kakao.com/link/search/${encodeURIComponent(COMPANY.address)}`}
+									target="_blank" 
+									rel="noreferrer" 
+									className={`${styles.mapBtn} ${styles.kakao}`}
+								>
+									카카오 지도 보기
+								</a>
 							</div>
 						</div>
 
-						<div className={styles.mapButtons}>
-							<a href={naverUrl} target="_blank" rel="noreferrer" className={`${styles.mapBtn} ${styles.naver}`}>
-								네이버 지도 보기
-							</a>
-							<a href={kakaoUrl} target="_blank" rel="noreferrer" className={`${styles.mapBtn} ${styles.kakao}`}>
-								카카오 지도 보기
-							</a>
-						</div>
+						{/* Right: Map */}
+						<div ref={mapRef} className={styles.mapContainer} id="map" />
 					</div>
-
-					{/* Right: Map */}
-					<div ref={mapRef} className={styles.mapContainer} id="map" />
-				</div>
 				</div>
 			</div>
 		</div>
