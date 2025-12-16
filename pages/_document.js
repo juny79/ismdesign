@@ -29,7 +29,7 @@ export default function Document() {
         <meta name="twitter:image" content="https://ismdesign.co.kr/ism-logo-new.png" />
         
         {/* Naver Verification */}
-        <meta name="naver-site-verification" content="55dc1dcf607950a7c0eac5bar2769d89660a3516" />
+        <meta name="naver-site-verification" content="e93a86019ffde87d69d0bce7e96ca6906d3bc09e" />
         
         {/* Google Verification */}
         <meta name="google-site-verification" content="google_site_verification_code" />
