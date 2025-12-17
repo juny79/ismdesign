@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Head from "next/head";
 import styles from "../styles/Contact.module.css";
 
 const COMPANY = {
@@ -112,7 +113,13 @@ export default function Contact() {
 	}, []);
 
 	return (
-		<div className={styles.container}>
+			<Head>
+				<title>ISM Design - Contact | 건축 설계 상담</title>
+				<meta name="description" content="ISM Design과 연락하기. 주소: 경기도 화성시 동탄순환대로 127-23 우성에듀파크 702호, 전화: 031-375-5106" />
+				<meta name="keywords" content="연락처, 상담, 건축설계, ISM Design, 이즈엠디자인" />
+			</Head>
+
+			<div className={styles.container}>
 			<nav className={styles.navbar}>
 				<div className={styles.navLeft}>
 					<Link href="/" className={styles.logo}>

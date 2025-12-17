@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import styles from "../styles/Portfolio.module.css";
 
 const portfolioProjects = [
@@ -67,6 +68,12 @@ export default function Portfolio() {
 
   return (
     <div className={styles.container}>
+      <Head>
+        <title>ISM Design - Portfolio | 건축 포트폴리오</title>
+        <meta name="description" content="ISM Design의 건축 설계 포트폴리오. 주거, 상업시설 등 다양한 프로젝트를 확인하세요." />
+        <meta name="keywords" content="포트폴리오, 건축설계, 주거, 상업시설, ISM Design" />
+      </Head>
+
       {/* 마우스 커서 글로우 */}
       <div 
         className={styles.cursorGlow}
