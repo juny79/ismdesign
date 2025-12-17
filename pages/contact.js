@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import Head from "next/head";
 import styles from "../styles/Contact.module.css";
 
@@ -92,13 +91,10 @@ export default function Contact() {
 
 						{/* Right: Map Image */}
 						<div className={styles.mapContainer}>
-							<Image
+							<img
 								src="/company-map.png"
 								alt="ISM Design 위치"
-								width={800}
-								height={500}
 								className={styles.mapImage}
-								priority
 							/>
 						</div>
 					</div>
