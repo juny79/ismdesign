@@ -95,7 +95,8 @@ export default function Contact() {
 							<Image
 								src="/company-map.png"
 								alt="ISM Design 위치"
-								fill
+								width={800}
+								height={500}
 								className={styles.mapImage}
 								priority
 							/>
