@@ -35,6 +35,11 @@ next-env.d.ts
 
 # image folder
 /test/.env.local
+
+# Ignore image files except in public folder
 *.png
 *.gif
 *.jpg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.gif
