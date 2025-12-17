@@ -137,11 +137,11 @@ export default function About() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>About us | ISM Design</title>
-        <meta name="description" content="ISM Design의 회사 소개, 사업 실적, 조직도, 비전을 확인하세요." />
+        <title>About us | ISM Design / 이즈엠디자인</title>
+        <meta name="description" content="ISM Design 회사소개. 사업실적, 조직도, 비전을 확인하세요." />
         <meta name="keywords" content="건축회사, 건축설계, 회사소개, ISM Design, 이즈엠디자인, 제일건설협력업체" />
         <meta property="og:title" content="About us | ISM Design" />
-        <meta property="og:description" content="ISM Design의 회사 소개, 사업 실적, 조직도, 비전을 확인하세요." />
+        <meta property="og:description" content="ISM Design 회사소개. 사업실적, 조직도, 비전을 확인하세요." />
       </Head>
 
       {/* 마우스 커서 이펙트 */}

@@ -69,11 +69,11 @@ export default function Portfolio() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Portfolio | ISM Design</title>
-        <meta name="description" content="ISM Design의 건축 포트폴리오. 광주, 평택, 하남 등 다양한 주거 프로젝트를 확인하세요." />
+        <title>Portfolio | ISM Design / 이즈엠디자인</title>
+        <meta name="description" content="ISM Design 포트폴리오. 광주, 평택, 하남 등 주거 건축 프로젝트를 확인하세요." />
         <meta name="keywords" content="포트폴리오, 건축설계, 주거, ISM Design, 이즈엠디자인" />
         <meta property="og:title" content="Portfolio | ISM Design" />
-        <meta property="og:description" content="ISM Design의 건축 포트폴리오. 광주, 평택, 하남 등 다양한 주거 프로젝트를 확인하세요." />
+        <meta property="og:description" content="ISM Design 포트폴리오. 주거 건축 프로젝트를 확인하세요." />
       </Head>
 
       {/* 마우스 커서 글로우 */}
