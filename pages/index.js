@@ -121,8 +121,8 @@ export default function Home() {
     <div className={styles.sliderContainer}>
       <Head>
         <title>ISM Design - 건축 설계 및 포트폴리오</title>
-        <meta name="description" content="ISM Design은 건축 설계 및 디자인 전문 회사입니다. 주거, 상업시설 등 다양한 프로젝트의 포트폴리오를 확인하세요." />
-        <meta name="keywords" content="건축설계, 건축디자인, 포트폴리오, ISM Design, 이즈엠디자인" />
+        <meta name="description" content="ISM Design(이즈엠디자인)은 아파트 건축설계 전문 회사입니다. 제일건설 협력업체로서 주거, 상업시설 등 다양한 프로젝트의 포트폴리오를 확인하세요." />
+        <meta name="keywords" content="건축설계, 건축디자인, 포트폴리오, ISM Design, 이즈엠디자인, 아파트건축설계, 제일건설, 제일건설협력업체, 주거설계, 건축전문회사" />
       </Head>
 
       {/* 마우스 커서 이펙트 */}
