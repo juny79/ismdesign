@@ -69,9 +69,11 @@ export default function Portfolio() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>ISM Design - Portfolio | 건축 포트폴리오</title>
-        <meta name="description" content="ISM Design(이즈엠디자인)의 건축 포트폴리오. 제일건설 협력업체로서 아파트건축설계, 주거, 상업시설 등 다양한 프로젝트를 확인하세요." />
-        <meta name="keywords" content="포트폴리오, 건축설계, 주거, 상업시설, ISM Design, 이즈엠디자인, 제일건설, 제일건설협력업체, 아파트건축설계, 건축사례" />
+        <title>Portfolio | ISM Design</title>
+        <meta name="description" content="ISM Design의 건축 포트폴리오. 광주, 평택, 하남 등 다양한 주거 프로젝트를 확인하세요." />
+        <meta name="keywords" content="포트폴리오, 건축설계, 주거, ISM Design, 이즈엠디자인" />
+        <meta property="og:title" content="Portfolio | ISM Design" />
+        <meta property="og:description" content="ISM Design의 건축 포트폴리오. 광주, 평택, 하남 등 다양한 주거 프로젝트를 확인하세요." />
       </Head>
 
       {/* 마우스 커서 글로우 */}
