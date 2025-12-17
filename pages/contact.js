@@ -113,13 +113,13 @@ export default function Contact() {
 	}, []);
 
 	return (
+		<div className={styles.container}>
 			<Head>
 				<title>ISM Design - Contact | 건축 설계 상담</title>
 				<meta name="description" content="ISM Design(이즈엠디자인) 연락처. 제일건설 협력업체로서 아파트건축설계 관련 상담을 받으실 수 있습니다. 주소: 경기도 화성시 동탄순환대로 127-23 우성에듀파크 702호, 전화: 031-375-5106" />
 				<meta name="keywords" content="연락처, 상담, 건축설계, ISM Design, 이즈엠디자인, 제일건설, 제일건설협력업체, 아파트건축설계, 건축상담" />
 			</Head>
 
-			<div className={styles.container}>
 			<nav className={styles.navbar}>
 				<div className={styles.navLeft}>
 					<Link href="/" className={styles.logo}>
