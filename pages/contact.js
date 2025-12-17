@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import styles from "../styles/Contact.module.css";
@@ -24,12 +23,11 @@ export default function Contact() {
 			<nav className={styles.navbar}>
 				<div className={styles.navLeft}>
 					<Link href="/" className={styles.logo}>
-						<Image
+						<img
 							src="/ism-logo-new.png"
 							alt="ISM"
 							width={120}
 							height={70}
-							priority
 							className={styles.logoIcon}
 						/>
 					</Link>
